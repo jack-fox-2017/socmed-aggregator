@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="images/x-icon" href="images/icon_logo.png" />
+  <title>aidil-twatt</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+    .footer {
+      width: 740px;
+      height: 60px
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">AIDIL-TWATT</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+             <button class="btn btn-outline-primary" type="button" onclick="usertimeline()">My Timeline</button>
+          </li>
+          <li class="nav-item active">
+            <button class="btn btn-outline-primary" type="button" onclick="timeline()">Home Timeline</button>
+          </li>
+        </ul>
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()">Search</button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container" style="padding:30px">
+    <form class="new-twatt" action="/" method="post">
+      <div class="form-group">
+        <input type="text" id="new-twatt" name="update" placeholder="What's happening?">
+      </div>
+      <button type="submit" class="btn btn-primary" >Twatt now!</button>
+    </form>
+  </div>
+
+    <div class="container" style="padding:20px" id="tl">
+    </div>
+  </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  <script type="text/javascript">
+  $(document).ready(function(){
+    timeline()
+  })
+
+  $('form.new-twatt').submit(eventHandler => {
+    //console.log('touchdown')
+    eventHandler.preventDefault()
+    axios.post('http://localhost:3000/twatt/postStatus', {
+      status : $('#new-twatt').val()
+    })
+    .then(() => {
+      usertimeline()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  });
+
+
+  function timeline() {
+    $.ajax({
+      url: 'http://localhost:3000/twatt/timeline',
+      type: 'GET',
+      dataType: 'json',
+      success: data=>{
+        $('#tl').empty();
+        $('#tl').append(`<h3>Home Timeline</h3>`)
+        // console.log(data)
+        data.forEach(tl=>{
+          $('#tl').append(`
+            <div class="card" style="margin:10px 0px 10px 0px">
+              <div class="card-body">
+                  <p> ${tl.user.name} (@${tl.user.screen_name}) </p>
+                  <p> ${tl.text} </p>
+                  <p> ${tl.created_at} </p>
+              </div>
+            </div>
+            `)
+          })
+        }
+      })
+  }
+
+  function usertimeline() {
+    $.ajax({
+      url: 'http://localhost:3000/twatt/usertimeline',
+      type: 'GET',
+      dataType: 'json',
+      success: data=>{
+        $('#tl').empty();
+        $('#tl').append(`<h3>My Timeline</h3>`)
+        data.forEach(tl=>{
+          $('#tl').append(`
+            <div class="card" style="margin:10px 0px 10px 0px">
+              <div class="card-body">
+                  <p> ${tl.user.name} (@${tl.user.screen_name}) </p>
+                  <p> ${tl.text} </p>
+                  <p> ${tl.created_at} </p>
+              </div>
+            </div>
+            `)
+          })
+        }
+      })
+    }
+
+    function search() {
+      //console.log($('.form-control').val())
+      $.ajax({
+        url: 'http://localhost:3000/twatt/search/'+$('.form-control').val(),
+        type: 'GET',
+        dataType: 'json',
+        success: data=>{
+          // console.log(data)
+          $('#tl').empty();
+          $('#tl').append(`<h3>Search result</h3>`)
+          data.statuses.forEach(status =>{
+            $('#tl').append(`
+              <div class="card" style="margin:10px 0px 10px 0px">
+                <div class="card-body">
+                    <p> ${status.user.name} (@${status.user.screen_name}) </p>
+                    <p> ${status.text} </p>
+                    <p> ${status.created_at} </p>
+                </div>
+              </div>
+              `)
+            })
+          }
+        })
+      }
+  </script>
+</body>
+</html>
