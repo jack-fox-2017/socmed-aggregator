@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> socmed aggregator twatt </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container">
+            <div class="col-md-12 text-center">
+              <h2>Twatt App</h2>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="col-md-12">
+              <form class="twatt">
+                <label for="twatt">Post Tweet:</label>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="twatt" placeholder="Post Your Tweet Here">
+                  <button type="submit" class="btn btn-info">Post Now</button>
+                </div>
+              </form>
+              <form class="search">
+                <label for="search">Search Here:</label>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search" placeholder="Your Query Here">
+                  <button type="submit" class="btn btn-info">Search Now</button>
+                </div>
+              </form>
+              <br>
+              <label>Your Recent Status:</label>
+              <button type="submit" class="btn btn-primary kodok">Show My Recent Status</button>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="container">
+          <div class="row">
+          <!-- tempat munculin timeline user ( status ) - append syntax dibawah dirender disini -->
+            <div class="col-md-6">
+              <div class="container timelineTwitter col-md-12">
+              </div>
+            </div>
+
+            <!-- tempat munculin search - append syntax dibawah dirender disini -->
+            <div class="col-md-6">
+              <div class="container searchTwitt col-md-12">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      // dari atas tampung disini = inputan dari INPUT ID search dan ID twatt
+      var $status = $('#twatt');
+      var $search = $('#search');
+
+      // diatas ada class kodok, utk nampilin recent status,,
+      // jadi begitu si kodok ini di click.. maka akan retrieve data dari API server
+      // trus kita akan tampilin di timelineTwitter diatas/di html atas
+      // carane timelineTwitter di append html yg mo kita render !!!
+
+      $('.kodok').click(function() {
+        axios.get('http://localhost:3000/twitter/profile')
+        .then(response=> {
+          $('.timelineTwitter').empty();
+          var data = response.data
+          data.forEach(datum =>{
+            $('.timelineTwitter').append(
+              `<ul class="list-group">
+                <li class="list-group-item">${datum}</li>
+              </ul>`
+            )
+          })
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      })
+
+      // now for posting
+      $('form.twatt').submit(function(eventHandler){
+        eventHandler.preventDefault()
+        axios.post('http://localhost:3000/twitter/post', {
+          quote: $status.val()
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      })
+
+      // now for searching
+      $('form.search').submit( function(eventHandler){
+        eventHandler.preventDefault()
+        axios.get(`http://localhost:3000/twitter/search/${$search.val()}`)
+      .then(response => {
+        console.log(response);
+        var banyakStatuses = response.data.statuses
+        banyakStatuses.forEach(status => {
+          console.log(status);
+          $('.searchTwitt').append(
+            `<ul class="list-group">
+              <li class="list-group-item">${status.text}</li>
+            </ul>`
+          )
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    })
+
+
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>
