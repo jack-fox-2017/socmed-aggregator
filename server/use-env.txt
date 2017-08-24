@@ -1,0 +1,4 @@
+USER_TOKEN=<your TOKEN from twitter>
+USER_SECRET=<your TOKEN SECRET from twitter>
+APP_TOKEN=<consumer TOKEN from twitter>
+APP_SECRET=<consumer TOKEN from twitter>
