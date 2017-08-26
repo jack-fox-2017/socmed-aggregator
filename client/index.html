@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="images/x-icon" href="images/icon_logo.png" />
+  <title>twatt-fb-aidil</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="lib/twatt.js" charset="utf-8"></script>
+  <script src="lib/fb.js" charset="utf-8"></script>
+  <style>
+    .footer {
+      width: 740px;
+      height: 60px
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">twatt-fb-aidil</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+             <button class="btn btn-outline-primary" type="button" onclick="usertimeline()">My Timeline</button>
+          </li>
+          <li class="nav-item active">
+            <button class="btn btn-outline-primary" type="button" onclick="timeline()">Home Timeline</button>
+          </li>
+          <li class="nav-item active">
+            <button class="btn btn-outline-primary" type="button" onclick="fbtimeline()">Timeline FB</button>
+          </li>
+          <li class="nav-item active">
+            <button class="btn btn-outline-primary" type="button" onclick="profiletimeline()">Profile FB</button>
+          </li>
+        </ul>
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()">Search</button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container" style="padding:30px">
+    <fb:login-button scope="public_profile,email,publish_actions,user_posts" onlogin="checkLoginState();">
+  </fb:login-button>
+    <div id="status">
+    </div><br><br>
+    <form class="new-twatt" action="/" method="post">
+      <div class="form-group">
+        <input type="text" id="new-twatt" name="update" placeholder="What's happening?">
+      </div>
+      <button type="submit" class="btn btn-primary" >Twatt now!</button>
+      <button type="submit" class="btn btn-secondary" >FB-Post now!</button>
+    </form>
+  </div>
+
+    <div class="container" style="padding:20px" id="tl">
+    </div>
+  </div>
+</body>
+</html>
