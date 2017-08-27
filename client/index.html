@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../assets/fb.js"></script>
+    <meta charset="utf-8">
+    <title>Twatt</title>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+  <center>
+      <input id="field" type="text" name="update" value="">
+      <button type="submit" name="button" class="posting">Update</button>
+
+      <div class="statusUpdate"></div>
+      <button type="button" name="button" class="refresh">Refresh</button>
+      <div class="con">
+        <div class="timeline"></div>
+      </div>
+  </center>
+  </body>
+  <script>
+  $(".refresh").click(()=>{
+    axios.get('http://localhost:3000/twitter/timeline')
+    .then((response)=> {
+      var resp = response.data
+      resp.forEach(r=>{
+        $(".timeline").append(`<p>${r.text}</p>`)
+      })
+    })
+    .catch((error)=> {
+      console.log(error);
+    });
+  })
+  $(".posting").click(()=>{
+    axios.post("http://localhost:3000/twitter/tweet",{
+      update : $("#field").val()
+    })
+    .then((response)=>{
+      $(".statusUpdate").append(`<p>Update Success</p>`)
+      console.log(response);
+    })
+    .catch(err=>{
+      $(".statusUpdate").append(`<p>${err}</p>`)
+      console.log(err);
+    })
+  })
+  </script>
+</html>
