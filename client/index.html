@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Socmed Generator</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.0/css/bulma.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/timeline.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
+</head>
+
+<body>
+
+  <!-- navbar -->
+  <nav class="nav has-shadow">
+    <div class="container">
+      <div class="nav-left">
+        <a class="nav-item is-tab is-active"><i class="fa fa-home"></i> &nbsp; Home</a>
+        <a class="nav-item is-tab"><i class="fa fa-bolt"></i> &nbsp; Moments</a>
+        <a class="nav-item is-tab"><i class="fa fa-bell-o"></i> &nbsp; Notifications</a>
+        <a class="nav-item is-tab"><i class="fa fa-envelope"></i> &nbsp; Messages</a>
+      </div>
+
+      <div class="nav-center">
+        <a class="nav-item" href="#">
+          <span class="icon">
+            <i class="fa fa-twitter"></i>
+          </span>
+        </a>
+      </div>
+
+      <span class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+
+      <div class="nav-right nav-menu">
+        <span class="nav-item">
+          <a class="button" >
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+            <span>Tweet</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </nav>
+  <!-- navbar -->
+
+  <!-- content -->
+  <section class="section main">
+    <div class="container">
+      <div class="columns">
+
+        <!-- card kiri -->
+        <div class="column is-3">
+          <div class="card is-fullwidth" id="user-info" >
+
+            <!-- append user-info -->
+
+          </div>
+
+
+          <div class="spacer"></div>
+
+          <!-- trending -->
+          <div class="box trending trending">
+            <p class="trend-title"><span class="title is-5">Trends</span> · <a href="#">change</a></p>
+            <!-- ===== append trending =====  -->
+            <!-- <p class="trend-hashtag"><a href="#">#hashtag1</a><br>13k statuses</p> -->
+          </div>
+          <!-- trending -->
+
+        </div>
+        <!-- card kiri -->
+
+        <!-- tweets -->
+        <div class="column is-6">
+
+          <!-- modal (ga kepake) -->
+          <!-- <div class="notification is-danger">
+            <button class="delete" onclick="((this).parentNode.remove())"></button>
+            This template is not yet finished, it may change. Please check the readme for more information.
+          </div> -->
+          <!-- modal -->
+
+          <!-- new twatt -->
+          <div class="box">
+            <form style="padding:0;" class="new-twatt" action="#">
+              <p class="control has-addons searchbox">
+                <input style="width:100%;" id="new-twatt-text" class="input" type="text" placeholder="New Twatt!">
+                 <a class="button is-dark">
+                &nbsp; <i class="fa fa-twitter"></i> &nbsp; 
+                </a> 
+              </p>
+            </form>
+          </div>
+          <!-- new twatt -->
+
+          <div class="box timeline">
+
+          <!--=== append timeline ===  -->
+
+          </div>
+        </div>
+        <!-- tweets -->
+
+        <!-- card kanan -->
+        <div class="column is-3">
+          <div class="box">
+            <p><span class="title is-5">Who to follow</span> · <a href="#">Refresh</a> · <a href="#">View All</a></p>
+            <hr>
+
+            <!-- who to follow person -->
+            <div class="columns">
+
+              <div class="column is-3 is-marginless">
+                <div class="image">
+                  <img src="https://placehold.it/200x200">
+                </div>
+              </div>
+
+              <div class="column is-9">
+                <p>
+                  <a href="#">
+                    <strong>John Smith</strong>
+                    &commat;jsmith
+                  </a> 
+                  <a href="#">
+                    <i class="fa fa-times"></i>
+                  </a>
+                </p>
+                <a class="button is-primary is-small">
+                  <span>
+                    + Follow
+                  </span>
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- card kanan -->
+
+
+      </div>
+    </div>
+  </section>
+  <!-- content -->
+
+  <script src="./lib/twtcontent.js"></script>
+
+</body>
+</html>
