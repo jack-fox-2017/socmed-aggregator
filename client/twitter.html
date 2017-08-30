@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Social Media Aggregator</title>
+    <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron topm">
+        <h1 class="tracking-in-expand">Welcome to Twitter</h1>
+        <hr class="my-4">
+        <h4>Using Twitter API</h4><button class="btn btn-info" onclick="home()">Home</button>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">Twitter Timeline</div>
+        <div class="panel-body">
+          <button class="btn btn-primary recent-timeline vibrate-2">Recent Timeline</button>
+          <div id="timeline"></div>
+        </div>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">My Timeline</div>
+        <div class="panel-body">
+          <button class="btn btn-primary my-timeline vibrate-2">My Timeline</button>
+          <div id="mytimeline"></div>
+        </div>
+      </div>
+      
+      <div class="panel panel-primary">
+        <div class="panel-heading">Search something on Twitter</div>
+        <div class="panel-body">
+          <form class="search">
+            <input type="search" class="form-control" id="search" placeholder="Search Something"><br>
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        </div>
+      </div>
+      <div class="search-tweet"></div>
+          
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+    $('.recent-timeline').click(() => {
+      axios.get('http://localhost:3000/twitter/home')
+      .then(res => {
+        let data = res.data
+        data.forEach(d => {
+          console.log(d);
+          $('#timeline').append(`
+              <h5><strong>${d.user.name}</strong></h5>
+              <h6>${d.text}</h6>
+          `)
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    })
+    
+    $('.my-timeline').click(() => {
+      axios.get('http://localhost:3000/twitter/timeline')
+      .then(res => {
+        let data = res.data
+        data.forEach(d => {
+          console.log(d);
+          $('#mytimeline').prepend(`
+            <h5><strong>${d.user.name}</strong></h5>
+            <h6>${d.text}</h6>
+          `)
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    })
+    
+    let $search = $('#search');
+    $('form.search').submit(function(eventHandler){
+      eventHandler.preventDefault()
+      axios.get('http://localhost:3000/twitter/search', {
+        params: {
+          key: $search.val()
+        }
+      })
+      .then(res => {
+        console.log(res);
+        $('.search-tweet').empty();
+        let statuses = res.data.statuses;
+        statuses.forEach(status => {
+          $('.search-tweet').append(`
+            <div class="panel panel-primary">
+              <div class="panel-heading">${status.user.name} @${status.user.screen_name}</div>
+              <div class="panel-body">${status.text}</div>
+              <div class="panel-footer">${status.created_at}</div>
+            </div>
+        `)
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    })
+    
+    function home(){
+      window.location.assign("http://127.0.0.1:8080")
+    }
+    </script>
+  </body>
+  
+</html>

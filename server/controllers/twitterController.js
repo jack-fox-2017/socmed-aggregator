@@ -11,10 +11,19 @@ const oauth = new OAuth(
   'HMAC-SHA1'
 );
 
+let home = (req, res) => {
+  oauth.get('https://api.twitter.com/1.1/statuses/home_timeline.json?count=5',
+  process.env.ACCESS_TOKEN,
+  process.env.ACCESS_TOKEN_SECRET,
+  function(e, data, response){
+    if(e) console.error(e);
+    res.send(data)
+  })
+}
+
 let seeTimeline = (req, res) => {
-  
-  // oauth.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=metamorphega&count=2', //bisa pakai ini, bisa juga pakai yang di bawah, count 2 = status 2 teratas
-  oauth.get('https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=130388806&count=2',
+  oauth.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=metamorphega&count=3', //bisa pakai ini, bisa juga pakai yang di bawah, count 2 = status 2 teratas
+  // oauth.get('https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=130388806&count=2',
   process.env.ACCESS_TOKEN,
   process.env.ACCESS_TOKEN_SECRET,
   function(e, data, response){
@@ -57,6 +66,7 @@ let seeFollowers = (req, res) => {
 }
 
 module.exports = {
+  home,
   seeTimeline,
   postTweet,
   searchTweet,

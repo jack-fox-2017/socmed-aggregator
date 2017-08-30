@@ -13,6 +13,7 @@ const oauth = new OAuth(
   'HMAC-SHA1'
 );
 
+router.get('/home', controller.home)
 router.get('/timeline', controller.seeTimeline)
 router.post('/post', controller.postTweet)
 router.get('/search', controller.searchTweet)
