@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <!-- <form class="" action="/status" method="post"> -->
+      <input type="text" name="update_status" placeholder="type your tweet">
+      <button class="btn_tweet" type="button" name="button">Tweet</button>
+    <!-- </form> -->
+    <br><br>
+    <!-- <button class="btn_status" type="button" name="button">Status</button> -->
+    <h3>My Timeline</h3>
+    <div id="timeline"></div>
+  </body>
+  <script>
+  $(document).ready(() => {
+    axios.get('http://localhost:3000/twitter/home/x301test')
+    .then(function (response) {
+      response.data.forEach(tweet => {
+        $('#timeline').append(`<p>${tweet.text} by ${tweet.user.name}</p>`)
+      })
+      // console.log('ini response ;',response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  })
+    // $('.btn_status').click(function() {
+    //
+    // })
+
+    $('.btn_tweet').click(function() {
+      axios.post('http://localhost:3000/twitter/status/', {
+        'update_status': $("input[name='update_status']").val()
+      })
+      .then(function (response) {
+        $('#timeline').prepend()
+        window.location.href='index.html'
+        // console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+    });
+    })
+
+  </script>
+</html>
