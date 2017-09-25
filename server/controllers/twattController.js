@@ -1,18 +1,20 @@
 var OAuth = require('oauth');
 require('dotenv').config()
 
+var oauth = new OAuth.OAuth(
+      'https://api.twitter.com/oauth/request_token',
+      'https://api.twitter.com/oauth/access_token',
+      // 'your application consumer key',
+      process.env.APP_CONSUMER_KEY,
+      // 'your application secret',
+      process.env.APP_SECRET,
+      '1.0A',
+      null,
+      'HMAC-SHA1'
+    );
+
 const getTwitter = function (req,res) {
-  var oauth = new OAuth.OAuth(
-        'https://api.twitter.com/oauth/request_token',
-        'https://api.twitter.com/oauth/access_token',
-        // 'your application consumer key',
-        process.env.APP_CONSUMER_KEY,
-        // 'your application secret',
-        process.env.APP_SECRET,
-        '1.0A',
-        null,
-        'HMAC-SHA1'
-      );
+  console.log(req.params.query)
       oauth.get(
         `https://api.twitter.com/1.1/search/tweets.json?q=${req.params.query}`,
         // 'your user token for this app', //test user token

@@ -11,27 +11,31 @@
       <input type="text" name="update_status" placeholder="type your tweet">
       <button class="btn_tweet" type="button" name="button">Tweet</button>
     <!-- </form> -->
+    <br>
+    <input type="text" name="search" placeholder="search tweet">
+    <button class="btn_search" type="button" name="button">Search</button>
     <br><br>
     <!-- <button class="btn_status" type="button" name="button">Status</button> -->
+    <h3>Search Result</h3>
+    <div id="search_tweet"></div> <br>
+
     <h3>My Timeline</h3>
     <div id="timeline"></div>
   </body>
+
   <script>
-  $(document).ready(() => {
-    axios.get('http://localhost:3000/twitter/home/x301test')
-    .then(function (response) {
-      response.data.forEach(tweet => {
-        $('#timeline').append(`<p>${tweet.text} by ${tweet.user.name}</p>`)
+    $(document).ready(() => {
+      axios.get('http://localhost:3000/twitter/home/x301test')
+      .then(function (response) {
+        response.data.forEach(tweet => {
+          $('#timeline').append(`<p>${tweet.text} by ${tweet.user.name}</p>`)
+        })
+        // console.log('ini response ;',response);
       })
-      // console.log('ini response ;',response);
+      .catch(function (error) {
+        console.log(error);
+      });
     })
-    .catch(function (error) {
-      console.log(error);
-    });
-  })
-    // $('.btn_status').click(function() {
-    //
-    // })
 
     $('.btn_tweet').click(function() {
       axios.post('http://localhost:3000/twitter/status/', {
@@ -44,7 +48,22 @@
       })
       .catch(function (error) {
         console.log(error);
-    });
+      });
+    })
+
+    $('.btn_search').click(function() {
+      var search = $("input[name='search']").val()
+      axios.get(`http://localhost:3000/twitter/${search}`)
+      .then(function (response) {
+        $('#search_tweet').empty()
+        console.log('masuk search ', response)
+        response.data.statuses.forEach(search => {
+          $('#search_tweet').append(`<p>${search.text} by ${search.user.name}</p>`)
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
     })
 
   </script>
